@@ -31,9 +31,9 @@ void inserir(FILA f, int e) {
 }
 void inseriresq(FILA f, int e){
   if(f->maisNovo == NULL){
-    f->maisNovo = f->maisAntigo =novoNo(e, NULL);
+    f->maisNovo = f->maisAntigo =novoNo(e, NULL,NULL);
   }else{
-    f->maisAntigo = f->maisNovo =novoNo(e, NULL);
+    f->maisAntigo->prev = f->maisNovo =novoNo(e, NULL,NULL);
     f->maisAntigo = f->maisAntigo ->prev;
   }
 }

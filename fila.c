@@ -11,7 +11,7 @@ link novoNo(int item, link next,link prev) {
   }
   t->item = item;
   t->next = next;
-  t->prev=prev;
+  t->prev = prev;
   return t;
 }
 
@@ -23,18 +23,21 @@ FILA novaFila() {
 
 void inserir(FILA f, int e) {
   if(f->maisAntigo == NULL) {
-    f->maisAntigo = f->maisNovo = novoNo(e, NULL);
+    f->maisAntigo = f->maisNovo = novoNo(e, NULL,NULL);
   } else {
-    f->maisNovo->next = novoNo(e, NULL);
+    f->maisNovo->next = novoNo(e, NULL,f->maisNovo);
     f->maisNovo = f->maisNovo->next;
   }
 }
 void inseriresq(FILA f, int e){
+  link c;
   if(f->maisNovo == NULL){
     f->maisNovo = f->maisAntigo =novoNo(e, NULL,NULL);
   }else{
-    f->maisAntigo->prev = f->maisNovo =novoNo(e, NULL,NULL);
-    f->maisAntigo = f->maisAntigo ->prev;
+    c = novoNo(e, NULL, NULL);
+    c->next = f->maisAntigo;
+    f->maisAntigo->prev =c;	
+	f->maisAntigo = c;    
   }
 }
 int remover(FILA f){
@@ -57,22 +60,24 @@ int remover(FILA f){
 }
 
 int removerdireita(FILA f){
-  int x;
-  link t;
-  if(filaVazia(f)){
-    printf ("Erro, a fila esta vazia\n");
-    return 0;
-  }
-  
-  x = f->maisNovo->item;
-  t = f->maisNovo;
-  f->maisNovo = f->maisNovo->prev;
+	int x;
+	link t;
+	if(filaVazia(f)){
+	    printf ("Erro, a fila esta vazia\n");
+	    return 0;
+  	}
  
-  if(f->maisNovo == NULL)
-    f->maisAntigo = NULL;
-
-  free(t);
-  return x;
+	x = f->maisNovo->item;
+ 	t = f->maisNovo;
+ 	
+ 	f->maisNovo = f->maisNovo->prev;
+ 	f->maisNovo->next = NULL; 		
+   
+	if(f->maisNovo == NULL)
+		f->maisAntigo = NULL;
+	
+	free(t);
+	return x;
 }
 int filaVazia(FILA f) {
   return ((f->maisNovo == NULL) || (f->maisAntigo == NULL));
